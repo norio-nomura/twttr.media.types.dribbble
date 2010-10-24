@@ -1,0 +1,26 @@
+{
+    "name":"twttr.media.types.dribbble",
+    "version":"1.0",
+    "description":"Show preview image from dribbble.com on #NewTwitter.",
+    "icons":{
+//        "16":"Icon-16.png",
+//        "48":"Icon-48.png",
+//        "128":"Icon-128.png"
+    },
+    "content_scripts":[
+        {
+            "matches":[
+                "http://twitter.com/",
+                "https://twitter.com/",
+                "http://twitter.com/#*",
+                "https://twitter.com/#*"
+            ],
+            "css":["twttr.media.types.dribbble.css"],
+            "js":["twttr.media.types.dribbble.js"],
+            "run_at":"document_end"
+        }
+    ],
+    "permissions":[
+        "http://api.dribbble.com/*"
+    ]
+}
