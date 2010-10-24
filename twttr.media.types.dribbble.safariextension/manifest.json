@@ -1,11 +1,11 @@
 {
     "name":"twttr.media.types.dribbble",
-    "version":"1.0",
+    "version":"1.1",
     "description":"Show preview image from dribbble.com on #NewTwitter.",
     "icons":{
-//        "16":"Icon-16.png",
-//        "48":"Icon-48.png",
-//        "128":"Icon-128.png"
+        "16":"Icon-16.png",
+        "48":"Icon-48.png",
+        "128":"Icon-128.png"
     },
     "content_scripts":[
         {
