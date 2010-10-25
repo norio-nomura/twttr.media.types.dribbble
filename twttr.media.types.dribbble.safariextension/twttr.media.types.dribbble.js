@@ -26,7 +26,17 @@ THE SOFTWARE.
 
 if (window.top === window) {
     
-    (function(){var script = document.createElement('script');
+    (function(){var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    if (typeof(safari) != 'undefined') {
+        link.href = safari.extension.baseURI + 'twttr.media.types.dribbble.css';
+    } else if (typeof(chrome) != 'undefined') {
+        link.href = chrome.extension.getURL('twttr.media.types.dribbble.css');
+    }
+    link.type = 'text/css';
+    link.media = 'screen';
+    document.head.insertBefore(link, document.head.firstChild);
+    var script = document.createElement('script');
     script.type = 'text/javascript';
     script.text = "{\n\
     function requestDribbble(path) {\n\
@@ -80,5 +90,5 @@ if (window.top === window) {
     setTimeout(dispatchTimeoutEvent,500);\n\
     }";
     document.head.appendChild(script);})();
-    
+
 }
