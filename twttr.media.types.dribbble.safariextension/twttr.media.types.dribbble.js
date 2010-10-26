@@ -39,11 +39,6 @@ if (window.top === window) {
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.text = "{\n\
-    function requestDribbble(path) {\n\
-    	var evt = document.createEvent(\"CustomEvent\");\n\
-    	evt.initCustomEvent(\"twttr.media.types.dribbble\",false,false,path);\n\
-    	document.dispatchEvent(evt);\n\
-    }\n\
     var dispatchTimeoutEvent = function() {\n\
     	var evt = document.createEvent(\"CustomEvent\");\n\
     	evt.initCustomEvent(\"twttr.media.types.comGitHubNorioNomura\",false,true);\n\
@@ -81,7 +76,7 @@ if (window.top === window) {
         		        A(twttr.supplant(B,this.data))\n\
         		    }\n\
         		});\n\
-    		document.removeEventListener(\"twttr.media.types.comGitHubNorioNomura\", instagramListener, true);\n\
+    		document.removeEventListener(\"twttr.media.types.comGitHubNorioNomura\", dribbbleListener, true);\n\
     		delete dispatchTimeoutEvent;\n\
     		delete dribbbleListener;\n\
     	} else {setTimeout(dispatchTimeoutEvent,500);}\n\
