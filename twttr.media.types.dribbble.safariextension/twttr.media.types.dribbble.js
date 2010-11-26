@@ -24,74 +24,44 @@ THE SOFTWARE.
 
 */
 
-if (window.top === window) {
-    
-    (function(){var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    if (typeof(safari) != 'undefined') {
-        link.href = safari.extension.baseURI + 'twttr.media.types.dribbble.css';
-    } else if (typeof(chrome) != 'undefined') {
-        link.href = chrome.extension.getURL('twttr.media.types.dribbble.css');
+(function(){
+    if (typeof(twttr.mediaType) !== 'undefined'){
+        if (typeof(twttr.media.types.dribbble) === 'undefined'){
+            twttr.mediaType('twttr.media.types.dribbble', {
+                icon : 'photo', favicon : 'http://dribbble.com/favicon.ico',
+                domain : 'http://dribbble.com', matchers : {
+                    standardUrl: /^#{optional_protocol}?dribbble\.com\/shots\/(\d+)\S*$/g
+                },
+                process : function (A) {
+                    var C = this;
+                    $.ajax({
+                        url: 'http://api.dribbble.com/shots/'+C.slug,
+                        dataType: 'jsonp',
+                        success: function (D) {
+                            C.data.id=D.id;
+                            C.data.title=D.title;
+                            C.data.url=D.url;
+                            C.data.image_teaser_url=D.image_teaser_url;
+                            C.data.width=D.width;
+                            C.data.height=D.height;
+                            C.data.pixels=(D.width*D.height).toLocaleString();
+                            C.data.created_at=D.created_at;
+                            C.data.likes_count=D.likes_count;
+                            C.data.comments_count=D.comments_count;
+                            C.data.views_count=D.views_count;
+                            C.data.player_url=D.player.url;
+                            C.data.player_username=D.player.username;
+                            C.data.player_avatar_url=D.player.avatar_url;
+                            C.data.player_name=D.player.name;
+                            A();
+                        }
+                    })
+                },
+                render : function (B) {
+                    var A='<ol class="dribbbles"><li id="screenshot-{id}" class="group"><div class="dribbble"><div class="dribbble-shot"><div class="dribbble-img"><a href="{url}" class="dribbble-link" target="_blank"><img alt="{teaser_base_name}" src="{image_teaser_url}" /></a><a href="{url}" class="dribbble-over" target="_blank" ><strong>{title}</strong><span class="dim">{width} &#215; {height} ({pixels} pixels)</span><em>{created_at}</em></a></div><ul class="tools group"><li class="fav"><a href="{url}/fans" title="See fans of this screenshot" target="_blank">{likes_count}</a></li><li class="cmnt"><a href="{url}#comments" title="View comments on this screenshot" target="_blank">{comments_count}</a></li><li class="views">\n{views_count}\n</li></ul></div></div><h2><a href="{player_url}" class="url" rel="contact" target="_blank"><img alt="{player_username}" class="photo fn" src="{player_avatar_url}" />{player_name}</a></h2></li></ol>';
+                    $(B).append(twttr.supplant(A, this.data));
+                }
+            });
+        }
     }
-    link.type = 'text/css';
-    link.media = 'screen';
-    document.head.insertBefore(link, document.head.firstChild);
-
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.text = "(function(){\n\
-    var dispatchTimeoutEvent = function() {\n\
-        var evt = document.createEvent(\"CustomEvent\");\n\
-        evt.initCustomEvent(\"twttr.media.types.comGitHubNorioNomura\", false, true);\n\
-        document.dispatchEvent(evt);\n\
-    };\n\
-    var dribbbleListener = function(evt){\n\
-        if (typeof(twttr.mediaType) != \"undefined\"){\n\
-            if (typeof(twttr.media.types.dribbble) == \"undefined\"){\n\
-                twttr.mediaType(\"twttr.media.types.dribbble\", {\n\
-                    title : \"dribbble\", icon : \"photo\", favicon : \"http://dribbble.com/favicon.ico\", domain : \"http://dribbble.com\", matchers : {\n\
-                        tinyUrl : /^#{optional_protocol}?drbl.in\\/\\/(\\d+)$/g,\n\
-                        standardUrl: /^#{optional_protocol}?dribbble.com\\/shots\\/(\\d+)\\S*$/g\n\
-                    },\n\
-                    process : function(A){\n\
-                        var C=this;\n\
-                        $.ajax({\n\
-                            url:\"http://api.dribbble.com/shots/\"+C.slug,\n\
-                            dataType:\"jsonp\",\n\
-                            success:function(D){\n\
-                                C.data.id=D.id;\n\
-                                C.data.title=D.title;\n\
-                                C.data.url=D.url;\n\
-                                C.data.image_teaser_url=D.image_teaser_url;\n\
-                                C.data.width=D.width;\n\
-                                C.data.height=D.height;\n\
-                                C.data.pixels=(D.width*D.height).toLocaleString();\n\
-                                C.data.created_at=D.created_at;\n\
-                                C.data.likes_count=D.likes_count;\n\
-                                C.data.comments_count=D.comments_count;\n\
-                                C.data.views_count=D.views_count;\n\
-                                C.data.player_url=D.player.url;\n\
-                                C.data.player_username=D.player.username;\n\
-                                C.data.player_avatar_url=D.player.avatar_url;\n\
-                                C.data.player_name=D.player.name;\n\
-                                A()\n\
-                            }\n\
-                        })\n\
-                    },\n\
-                    render : function(B){\n\
-                        var A='<ol class=\"dribbbles\"><li id=\"screenshot-{id}\" class=\"group\"><div class=\"dribbble\"><div class=\"dribbble-shot\"><div class=\"dribbble-img\"><a href=\"{url}\" class=\"dribbble-link\" target=\"_blank\"><img alt=\"{teaser_base_name}\" src=\"{image_teaser_url}\" /></a><a href=\"{url}\" class=\"dribbble-over\" target=\"_blank\" ><strong>{title}</strong><span class=\"dim\">{width} &#215; {height} ({pixels} pixels)</span><em>{created_at}</em></a></div><ul class=\"tools group\"><li class=\"fav\"><a href=\"{url}/fans\" title=\"See fans of this screenshot\" target=\"_blank\">{likes_count}</a></li><li class=\"cmnt\"><a href=\"{url}#comments\" title=\"View comments on this screenshot\" target=\"_blank\">{comments_count}</a></li><li class=\"views\">\\n{views_count}\\n</li></ul></div></div><h2><a href=\"{player_url}\" class=\"url\" rel=\"contact\" target=\"_blank\"><img alt=\"{player_username}\" class=\"photo fn\" src=\"{player_avatar_url}\" />{player_name}</a></h2></li></ol>';\n\
-                        $(B).append(twttr.supplant(A, this.data))\n\
-                    }\n\
-                });\n\
-            }\n\
-            document.removeEventListener(\"twttr.media.types.comGitHubNorioNomura\", dribbbleListener, true);\n\
-            delete dispatchTimeoutEvent;\n\
-            delete dribbbleListener;\n\
-        } else {setTimeout(dispatchTimeoutEvent, 500);}\n\
-    };\n\
-    document.addEventListener(\"twttr.media.types.comGitHubNorioNomura\", dribbbleListener, true);\n\
-    setTimeout(dispatchTimeoutEvent, 500);\n\
-    })();";
-    document.head.appendChild(script);})();
-
-}
+})();

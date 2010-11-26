@@ -11,9 +11,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6</string>
+	<string>1.7</string>
 	<key>CFBundleVersion</key>
-	<string>1.6</string>
+	<string>1.7</string>
 	<key>Chrome</key>
 	<dict/>
 	<key>Content</key>
@@ -22,7 +22,11 @@
 		<dict>
 			<key>End</key>
 			<array>
-				<string>twttr.media.types.dribbble.js</string>
+				<string>injectHTMLLinkElement.js</string>
+			</array>
+			<key>Start</key>
+			<array>
+				<string>injectHTMLScriptElement.js</string>
 			</array>
 		</dict>
 		<key>Whitelist</key>

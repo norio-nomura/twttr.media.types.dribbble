@@ -1,6 +1,6 @@
 {
     "name":"twttr.media.types.dribbble",
-    "version":"1.6",
+    "version":"1.7",
     "description":"Show preview image from dribbble.com on #NewTwitter.",
     "icons":{
         "16":"Icon-16.png",
@@ -15,7 +15,17 @@
                 "http://twitter.com/#*",
                 "https://twitter.com/#*"
             ],
-            "js":["twttr.media.types.dribbble.js"],
+            "js":["injectHTMLScriptElement.js"],
+            "run_at":"document_start"
+        },
+        {
+            "matches":[
+                "http://twitter.com/",
+                "https://twitter.com/",
+                "http://twitter.com/#*",
+                "https://twitter.com/#*"
+            ],
+            "js":["injectHTMLLinkElement.js"],
             "run_at":"document_end"
         }
     ],
